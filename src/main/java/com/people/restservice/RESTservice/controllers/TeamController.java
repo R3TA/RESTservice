@@ -67,10 +67,11 @@ public class TeamController {
     }
     
     //PUT
-    @PutMapping("/{id}") 
-    public void update(@PathVariable("id") Long id, @Valid @RequestBody Team team){
-        this.service.update(id, team);        
-        //return new ResponseEntity<>(updated, HttpStatus.OK);
+    @PutMapping("/{id}")
+    @ResponseBody
+    public ResponseEntity<Team> update(@PathVariable("id") Long id, @Valid @RequestBody Team team){
+        Team updated = this.service.update(id, team);        
+        return new ResponseEntity<>(updated, HttpStatus.OK);
     }
     
     //DELETE
@@ -78,5 +79,4 @@ public class TeamController {
     public void delete(@PathVariable("id") Long id){
         this.service.delete(id);
     }
-    
 }

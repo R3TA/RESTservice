@@ -89,5 +89,4 @@ public class PlayerController {
     public List<Player> findAllByTeam(@PathVariable("teamId") Long teamId){
         return this.service.findAllByTeam(teamId);
     }
-    
 }

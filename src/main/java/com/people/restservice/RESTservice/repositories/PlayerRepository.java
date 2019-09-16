@@ -30,6 +30,5 @@ public interface PlayerRepository extends PagingAndSortingRepository<Player, Lon
     public void addTeam(@Param("id") Long id, @Param("teamId") Long teamId);
       
     @Query(value = "SELECT * FROM Player p WHERE p.team_id = :teamId", nativeQuery = true)
-    List<Player> findAllByTeam(@Param("teamId") Long teamId);
-    
+    List<Player> findAllByTeam(@Param("teamId") Long teamId);  
 }

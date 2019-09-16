@@ -21,8 +21,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TeamRepository extends PagingAndSortingRepository<Team, Long>{
     List<Team> findAll();
-    @Transactional
-    @Modifying(clearAutomatically = true)
-    @Query(value = "UPDATE Team t SET t.name = :name, t.stadium = :stadium WHERE t.id = :id", nativeQuery = true)
-    public void update(@Param("id") Long id, @Param("name") String name, @Param("stadium") String stadium);
+    //Team update(Long id, Team team);
+    //Team findById(Long id);
+    //@Transactional
+    //@Modifying(clearAutomatically = true)
+    //@Query(value = "UPDATE Team t SET t.name = :name, t.stadium = :stadium WHERE t.id = :id", nativeQuery = true)
+    //public void update(@Param("id") Long id, @Param("name") String name, @Param("stadium") String stadium);
 }
