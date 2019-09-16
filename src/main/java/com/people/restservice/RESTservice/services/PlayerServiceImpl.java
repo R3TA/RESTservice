@@ -10,6 +10,7 @@ import com.people.restservice.RESTservice.models.Team;
 import com.people.restservice.RESTservice.repositories.PlayerRepository;
 import com.people.restservice.RESTservice.repositories.TeamRepository;
 import com.people.restservice.RESTservice.validations.PlayerNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -28,6 +29,7 @@ public class PlayerServiceImpl implements PlayerService{
     private static final Logger log = LoggerFactory.getLogger(PlayerServiceImpl.class);
     private PlayerRepository repository;
     private TeamRepository repository2;
+    
     @Autowired
     public PlayerServiceImpl(PlayerRepository repository, TeamRepository repository2) {
         this.repository = repository;
@@ -94,6 +96,13 @@ public class PlayerServiceImpl implements PlayerService{
 
     @Override
     public List<Player> findAllByTeam(Long teamId) {
-        return this.repository.findAllByTeam(teamId);
-    }   
+        List<Player> players = this.repository.findAll();
+        List<Player> playersById = new ArrayList<>();
+        for(Player p: players){
+           if((p.getTeam().getId()) == (teamId)){
+                playersById.add(p);
+           }
+        }
+        return playersById;
+    }
 }
