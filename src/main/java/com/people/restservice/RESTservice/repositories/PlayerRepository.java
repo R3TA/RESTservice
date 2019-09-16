@@ -19,7 +19,7 @@ import org.springframework.data.repository.query.Param;
  */
 public interface PlayerRepository extends PagingAndSortingRepository<Player, Long>{
     List<Player> findAll();
-    @Transactional
+    /*@Transactional
     @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE Player p SET p.name = :name, p.rut= :rut WHERE p.id = :id", nativeQuery = true)
     public void update(@Param("id") Long id, @Param("name") String name, @Param("rut") String rut);
@@ -28,7 +28,7 @@ public interface PlayerRepository extends PagingAndSortingRepository<Player, Lon
     @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE Player p SET p.team_id = :teamId WHERE p.id = :id", nativeQuery = true)
     public void addTeam(@Param("id") Long id, @Param("teamId") Long teamId);
-      
+    */  
     @Query(value = "SELECT * FROM Player p WHERE p.team_id = :teamId", nativeQuery = true)
-    List<Player> findAllByTeam(@Param("teamId") Long teamId);  
+    List<Player> findAllByTeam(@Param("teamId") Long teamId); 
 }

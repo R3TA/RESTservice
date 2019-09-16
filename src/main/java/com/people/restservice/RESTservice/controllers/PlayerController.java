@@ -73,8 +73,9 @@ public class PlayerController {
     }
     
     @PutMapping("/{id}/{itemId}")
-    public void addTeam(@PathVariable("id") Long id, @PathVariable("itemId") Long itemId){
-        this.service.addTeam(id, itemId);
+    public ResponseEntity<Player> addTeam(@PathVariable("id") Long id, @PathVariable("itemId") Long itemId){
+        Player addTeam = this.service.addTeam(id, itemId);
+        return new ResponseEntity<>(addTeam, HttpStatus.OK);
     }
     
     //DELETE

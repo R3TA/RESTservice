@@ -6,7 +6,9 @@
 package com.people.restservice.RESTservice.services;
 
 import com.people.restservice.RESTservice.models.Player;
+import com.people.restservice.RESTservice.models.Team;
 import com.people.restservice.RESTservice.repositories.PlayerRepository;
+import com.people.restservice.RESTservice.repositories.TeamRepository;
 import com.people.restservice.RESTservice.validations.PlayerNotFoundException;
 import java.util.List;
 import java.util.Optional;
@@ -25,10 +27,11 @@ import org.springframework.stereotype.Service;
 public class PlayerServiceImpl implements PlayerService{
     private static final Logger log = LoggerFactory.getLogger(PlayerServiceImpl.class);
     private PlayerRepository repository;
-    
+    private TeamRepository repository2;
     @Autowired
-    public PlayerServiceImpl(PlayerRepository repository) {
+    public PlayerServiceImpl(PlayerRepository repository, TeamRepository repository2) {
         this.repository = repository;
+        this.repository2 = repository2;
     }  
  
     @Override
@@ -39,14 +42,16 @@ public class PlayerServiceImpl implements PlayerService{
 
     @Override
     public Player update(Long id, Player player) {
-        Optional<Player> findPlayer = this.repository.findById(id);
-        if(!findPlayer.isPresent()){
+        Player findPlayer = this.repository.findById(id).get();
+        if(findPlayer == null){
             log.info("Updating is not possible: The player not exist in the database");
             throw new PlayerNotFoundException("Team not exist in the database!");
         }else{
-            this.repository.update(id, player.getName(), player.getRut());
+            findPlayer.setName(player.getName());
+            findPlayer.setName(player.getRut());           
+            this.repository.save(findPlayer);
             log.info("Updating player...");
-            return findPlayer.get();
+            return findPlayer;
         }
     }
 
@@ -69,21 +74,22 @@ public class PlayerServiceImpl implements PlayerService{
     @Override
     public Player findById(Long id) {
         Optional<Player> f = this.repository.findById(id);
-            if(!f.isPresent()){
-               throw new PlayerNotFoundException("Player not exists in the database!");               
-            }else{
-                log.info("Searching player...");
-                return f.get();
-            }    
+        if(!f.isPresent()){
+           throw new PlayerNotFoundException("Player not exists in the database!");               
+        }else{
+            log.info("Searching player...");
+            return f.get();
+        }    
     }
 
     @Override
     public Player addTeam(Long id, Long teamId) {
         log.info("Adding player to team...");
-        Optional<Player> finded = this.repository.findById(id);
-        Player addedTeam = new Player(finded.get().getName(),finded.get().getRut());
-        this.repository.addTeam(id, teamId);
-        return addedTeam;  
+        Player finded = this.repository.findById(id).get();
+        Team addedTeam = this.repository2.findById(teamId).get();
+        finded.setTeam(addedTeam);
+        this.repository.save(finded);
+        return finded;
     }
 
     @Override
